@@ -1,2 +1,4 @@
-# arcade-game
-Frogger like arcade where the goal is to cross the road without getting hit by a car.
+Javascript Arcade Game
+===============================
+
+Cross the street without getting hit by a car!
