@@ -1,34 +1,13 @@
-// Enemies our player must avoid
-class Enemy {
-    constructor(x, y) {
-        // Variables applied to each of our instances go here,
-        // we've provided one for you to get started
+'use strict;'
 
+class Character {
+    constructor(spritePath, x,y) {
+        // Variables applied to each of our instances go here,
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
-        this.sprite = 'images/enemy-bug.png';
+        this.sprite = spritePath;
         this.x = x;
         this.y = y;
-
-        setTimeout(this.update("dt"), 0 );
-    }
-
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
-    update(dt) {
-        this.x+=5
-        if (this.x >= 500) {
-            this.x = -100
-        }
-        // You should multiply any movement by the dt parameter
-        // which will ensure the game runs at the same speed for
-        // all computers.
-    }
-
-    moveEnemy() {
-        // while (true) {
-        //     this.x+=20;
-        // }
     }
 
     render() {
@@ -37,18 +16,35 @@ class Enemy {
     }
 }
 
+// Enemies our player must avoid
+class Enemy extends Character {
+    constructor(x, y) {
+        super('images/enemy-bug.png', x, y);
+        setTimeout(this.update("dt"), 0 );
+    }
+
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
+    update(dt) {
+        this.x+=5
+        if (this.x >= 500) {
+            this.x = -100;
+        }
+    }
+
+}
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 
-class Player {
+class Player extends Character {
     constructor() {
-        this.sprite = 'images/char-boy.png';
-        this.resetPosition();
+        super('images/char-boy.png', 200, 385);
     }
 
     update() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        this.checkCollision();
     }
 
     resetPosition() {
@@ -56,6 +52,7 @@ class Player {
         this.y = 385;
     }
 
+    // Move the character on the screen and check if player has won
     handleInput(input) {
         if (input == "up" && this.y >= 45) {
             this.y-=85
@@ -66,13 +63,9 @@ class Player {
         } else if (input == "left" && this.x >= 50) {
             this.x-=100
         }
-        this.update();
-        this.checkCollision();
-    }
-
-    render() {
-        // Draw the player on the screen
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        if (this.y <= -40) {
+            gameOver();
+        }
     }
 
     checkCollision() {
@@ -84,12 +77,6 @@ class Player {
     }
 
     hasCollided(enemy) {
-        console.log("this.x", this.x);
-        console.log("enemy.x", enemy.x);
-        console.log("")
-        console.log("this.y", this.y);
-        console.log("enemy.y", enemy.y);
-        console.log("-------------")
         if ((this.x >= enemy.x-55 && this.x <= enemy.x+55) && (this.y >= enemy.y-15 && this.y <= enemy.y+15)) {
             return true;
         }
@@ -117,4 +104,25 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+// Modal functionality for when the player has won
+const modal = document.getElementById('gameOverModal');
+const modalContent = document.getElementById('modal-p-content');
+const modalSpan = document.getElementsByClassName("close")[0];
+
+function gameOver () {
+    modal.style.display = "block";
+    modalContent.textContent = `You win!`;
+}
+
+modalSpan.onclick = function() {
+    modal.style.display = "none";
+    player.resetPosition();
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        player.resetPosition();
+    }
+}
 
