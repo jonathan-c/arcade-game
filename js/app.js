@@ -9,11 +9,17 @@ class Enemy {
         this.sprite = 'images/enemy-bug.png';
         this.x = x;
         this.y = y;
+
+        setTimeout(this.update("dt"), 0 );
     }
 
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update(dt) {
+        this.x+=5
+        if (this.x >= 500) {
+            this.x = -100
+        }
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
@@ -78,12 +84,12 @@ class Player {
     }
 
     hasCollided(enemy) {
-        // console.log("this.x", this.x);
-        // console.log("enemy.x", enemy.x);
-        // console.log("")
-        // console.log("this.y", this.y);
-        // console.log("enemy.y", enemy.y);
-        // console.log("-------------")
+        console.log("this.x", this.x);
+        console.log("enemy.x", enemy.x);
+        console.log("")
+        console.log("this.y", this.y);
+        console.log("enemy.y", enemy.y);
+        console.log("-------------")
         if ((this.x >= enemy.x-55 && this.x <= enemy.x+55) && (this.y >= enemy.y-15 && this.y <= enemy.y+15)) {
             return true;
         }
@@ -94,7 +100,7 @@ class Player {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-let allEnemies = [new Enemy(47, 60), new Enemy(47, 145), new Enemy(47, 230)];
+let allEnemies = [new Enemy(-10, 60), new Enemy(-200, 145), new Enemy(-100, 230)];
 player = new Player();
 
 
