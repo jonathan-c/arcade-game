@@ -1,5 +1,7 @@
 'use strict;'
 
+// import swal from 'sweetalert';
+
 class Character {
     constructor(spritePath, x,y) {
         // Variables applied to each of our instances go here,
@@ -104,25 +106,12 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-// Modal functionality for when the player has won
-const modal = document.getElementById('gameOverModal');
-const modalContent = document.getElementById('modal-p-content');
-const modalSpan = document.getElementsByClassName("close")[0];
-
 function gameOver () {
-    modal.style.display = "block";
-    modalContent.textContent = `You win!`;
-}
-
-modalSpan.onclick = function() {
-    modal.style.display = "none";
-    player.resetPosition();
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    swal({
+      title: "You win!",
+      icon: "success",
+    }).then(function() {
         player.resetPosition();
-    }
+    })
 }
 

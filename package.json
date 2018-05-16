@@ -18,5 +18,6 @@
   "homepage": "https://github.com/jonathan-c/arcade-game#readme",
   "devDependencies": {
     "eslint-config-google": "^0.9.1"
-  }
+  },
+  "dependencies": {}
 }
